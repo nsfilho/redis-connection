@@ -1,4 +1,4 @@
-# Redis Micro Library
+# Redis Connection Library
 
 A very simple and small services to simplify process to connect a redis host or cluster and provide
 some sugars and environments flavors.
@@ -46,7 +46,7 @@ You will found other samples in: [Samples Folder](https://github.com/nsfilho/red
 
 ```ts
 /* eslint-disable no-console */
-import { getConnection, disconnect } from '@nsfilho/redis';
+import { getConnection, disconnect } from '@nsfilho/redis-connection';
 
 const createSampleKey = async () => {
     const redis = await getConnection();

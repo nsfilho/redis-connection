@@ -1,5 +1,5 @@
 {
-    "name": "@nsfilho/redis",
+    "name": "@nsfilho/redis-connection",
     "main": "build/index.js",
     "type": "build/index.d.ts",
     "license": "GPL-3.0",

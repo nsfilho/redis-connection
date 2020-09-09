@@ -22,7 +22,7 @@
 module.exports = {
     mode: 'modules',
     out: 'docs',
-    name: 'Redis',
+    name: 'Redis Connection',
     inputFiles: ['./src'],
     exclude: '**/*.test.ts',
 };
