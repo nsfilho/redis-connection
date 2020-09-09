@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/nsfilho/redis-connection/compare/v0.1.5...v0.1.6) (2020-09-09)
+
+
+### Features
+
+* changing version of ioredis to support lpos ([d431c91](https://github.com/nsfilho/redis-connection/commit/d431c91ac6aa9e68aacda44001ab2c6b093ca086))
+
 ### [0.1.5](https://github.com/nsfilho/redis-connection/compare/v0.1.4...v0.1.5) (2020-09-09)
 
 
