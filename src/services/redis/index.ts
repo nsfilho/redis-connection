@@ -80,6 +80,7 @@ const internalState: {
 /** Default redis instance */
 export const getConnection = async (): Promise<Redis.Cluster | Redis.Redis> => {
     if (internalState.redis !== null) return internalState.redis;
+
     let debugTimeout: NodeJS.Timeout | null = null;
     if (REDIS_DEBUG_CONSOLE) {
         let tryCount = 0;
@@ -88,6 +89,7 @@ export const getConnection = async (): Promise<Redis.Cluster | Redis.Redis> => {
             console.log(`REDIS(main): Trying connection #${tryCount}`);
         }, 1000);
     }
+
     internalState.redis = await createRedis({
         instance: 'main',
         nodes: REDIS_MAIN_CLUSTER,
