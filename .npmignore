@@ -1,0 +1,13 @@
+src
+docs
+sample
+.vscode
+.github
+.eslintrc.js
+.prettierrc.js
+commitlint.config.js
+jest.config.js
+tsconfig.json
+typedoc.js
+CHANGELOG.md
+*.zip
