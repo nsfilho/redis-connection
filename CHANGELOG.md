@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/nsfilho/redis-connection/compare/v0.1.4...v0.1.5) (2020-09-09)
+
+
+### Bug Fixes
+
+* **actions:** changing node parameters ([7196b85](https://github.com/nsfilho/redis-connection/commit/7196b8580ed613aeb1e7a80cf43052638bb7dfe9))
+
 ### [0.1.4](https://github.com/nsfilho/redis-connection/compare/v0.1.3...v0.1.4) (2020-09-09)
 
 ### [0.1.3](https://github.com/nsfilho/redis/compare/v0.1.2...v0.1.3) (2020-09-09)
