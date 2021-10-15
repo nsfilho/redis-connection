@@ -21,7 +21,12 @@
 /* eslint-disable no-console */
 
 import Redis from 'ioredis';
-import { REDIS_MAIN_CLUSTER, REDIS_MAIN_PASSWORD, REDIS_DEBUG_CONSOLE } from '../../constants';
+import {
+    REDIS_MAIN_CLUSTER,
+    REDIS_MAIN_PASSWORD,
+    REDIS_DEBUG_CONSOLE,
+    REDIS_CONNECTION_POOLING,
+} from '../../constants';
 
 /**
  * All parameters needs to create a new redis connection
@@ -73,14 +78,27 @@ export const createRedis = (options: CreateRedisOptions): Promise<Redis.Cluster 
 /** Control state */
 const internalState: {
     redis: Redis.Cluster | Redis.Redis | null;
+    started: boolean;
 } = {
     redis: null,
+    started: false,
 };
 
 /** Default redis instance */
 export const getConnection = async (): Promise<Redis.Cluster | Redis.Redis> => {
     if (internalState.redis !== null) return internalState.redis;
-
+    if (internalState.started) {
+        await new Promise((resolve) => {
+            const handleInterval = setInterval(() => {
+                if (internalState.redis) {
+                    clearInterval(handleInterval);
+                    resolve(true);
+                }
+            }, REDIS_CONNECTION_POOLING);
+        });
+        if (internalState.redis) return internalState.redis;
+    }
+    internalState.started = true;
     let debugTimeout: NodeJS.Timeout | null = null;
     if (REDIS_DEBUG_CONSOLE) {
         let tryCount = 0;
