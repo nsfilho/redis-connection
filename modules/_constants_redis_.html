@@ -73,6 +73,7 @@
 						<section class="tsd-index-section ">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="_constants_redis_.html#redis_connection_pooling" class="tsd-kind-icon">REDIS_<wbr>CONNECTION_<wbr>POOLING</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="_constants_redis_.html#redis_debug_console" class="tsd-kind-icon">REDIS_<wbr>DEBUG_<wbr>CONSOLE</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="_constants_redis_.html#redis_main_cluster" class="tsd-kind-icon">REDIS_<wbr>MAIN_<wbr>CLUSTER</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="_constants_redis_.html#redis_main_password" class="tsd-kind-icon">REDIS_<wbr>MAIN_<wbr>PASSWORD</a></li>
@@ -84,12 +85,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Variables</h2>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
+					<a name="redis_connection_pooling" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> REDIS_<wbr>CONNECTION_<wbr>POOLING</h3>
+					<div class="tsd-signature tsd-kind-icon">REDIS_<wbr>CONNECTION_<wbr>POOLING<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = process.env.REDIS_CONNECTION_POOLING? parseInt(process.env.REDIS_CONNECTION_POOLING, 10): 100</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nsfilho/redis-connection/blob/6875e95/src/constants/redis.ts#L29">constants/redis.ts:29</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
 					<a name="redis_debug_console" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> REDIS_<wbr>DEBUG_<wbr>CONSOLE</h3>
 					<div class="tsd-signature tsd-kind-icon">REDIS_<wbr>DEBUG_<wbr>CONSOLE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = process.env.REDIS_DEBUG_CONSOLE &#x3D;&#x3D;&#x3D; &#x27;true&#x27; || false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/nsfilho/redis-connection/blob/3bf0299/src/constants/redis.ts#L27">constants/redis.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/nsfilho/redis-connection/blob/6875e95/src/constants/redis.ts#L27">constants/redis.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -99,7 +110,7 @@
 					<div class="tsd-signature tsd-kind-icon">REDIS_<wbr>MAIN_<wbr>CLUSTER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> = process.env.REDIS_MAIN_CLUSTER? JSON.parse(process.env.REDIS_MAIN_CLUSTER): [{ port: 6379, host: &#x27;127.0.0.1&#x27; }]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/nsfilho/redis-connection/blob/3bf0299/src/constants/redis.ts#L21">constants/redis.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/nsfilho/redis-connection/blob/6875e95/src/constants/redis.ts#L21">constants/redis.ts:21</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -117,7 +128,7 @@
 						GNU General Public License for more details.</p>
 						<p>You should have received a copy of the GNU General Public License
 						along with this program.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
-						<p>Author: Nelio Santos <a href="mailto:&#110;&#x73;&#102;&#105;&#108;&#104;&#111;&#64;&#105;&#99;&#x6c;&#x6f;&#x75;&#100;&#x2e;&#99;&#x6f;&#x6d;">&#110;&#x73;&#102;&#105;&#108;&#104;&#111;&#64;&#105;&#99;&#x6c;&#x6f;&#x75;&#100;&#x2e;&#99;&#x6f;&#x6d;</a></p>
+						<p>Author: Nelio Santos <a href="mailto:&#x6e;&#x73;&#x66;&#x69;&#108;&#x68;&#111;&#64;&#x69;&#99;&#x6c;&#111;&#117;&#100;&#x2e;&#99;&#111;&#109;">&#x6e;&#x73;&#x66;&#x69;&#108;&#x68;&#111;&#64;&#x69;&#99;&#x6c;&#111;&#117;&#100;&#x2e;&#99;&#111;&#109;</a></p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
@@ -126,7 +137,7 @@
 					<div class="tsd-signature tsd-kind-icon">REDIS_<wbr>MAIN_<wbr>PASSWORD<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = process.env.REDIS_MAIN_PASSWORD || &#x27;password&#x27;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/nsfilho/redis-connection/blob/3bf0299/src/constants/redis.ts#L25">constants/redis.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/nsfilho/redis-connection/blob/6875e95/src/constants/redis.ts#L25">constants/redis.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -154,6 +165,9 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
+						<a href="_constants_redis_.html#redis_connection_pooling" class="tsd-kind-icon">REDIS_<wbr>CONNECTION_<wbr>POOLING</a>
+					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-module">
 						<a href="_constants_redis_.html#redis_debug_console" class="tsd-kind-icon">REDIS_<wbr>DEBUG_<wbr>CONSOLE</a>
 					</li>
