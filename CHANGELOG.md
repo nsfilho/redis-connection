@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.9](https://github.com/nsfilho/redis-connection/compare/v0.1.8...v0.1.9) (2021-10-15)
+
+
+### Features
+
+* **packages:** updating ioredis and husky ([2fc7c57](https://github.com/nsfilho/redis-connection/commit/2fc7c57969cd1a75947635fdfb81c93cf6ba297c))
+* **packages:** updating ioredis and husky ([0171a15](https://github.com/nsfilho/redis-connection/commit/0171a15ca69fad8b95002a0b9c55d6b206802330))
+
 ### [0.1.8](https://github.com/nsfilho/redis-connection/compare/v0.1.7...v0.1.8) (2021-10-15)
 
 
