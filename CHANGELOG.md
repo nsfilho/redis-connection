@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.10](https://github.com/nsfilho/redis-connection/compare/v0.1.9...v0.1.10) (2021-10-22)
+
+
+### Features
+
+* **instances:** added support to multiples instances ([f241fc6](https://github.com/nsfilho/redis-connection/commit/f241fc6266aa78b220b9f0e82cce330e4d090a26))
+
 ### [0.1.9](https://github.com/nsfilho/redis-connection/compare/v0.1.8...v0.1.9) (2021-10-15)
 
 
