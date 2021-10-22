@@ -20,9 +20,17 @@ some sugars and environments flavors.</p>
 </a>
 <p>This services use some environment variables to pre-adjust some things, like:</p>
 <ul>
-<li><code>REDIS_MAIN_CLUSTER</code>: a redis cluster or host, example and default: <code>[{ port: 6379, host: &#39;127.0.0.1&#39; }]</code>;</li>
-<li><code>REDIS_MAIN_PASSWORD</code>: a password for access redis, example and default: <code>password</code>;</li>
-<li><code>REDIS_DEBUG_CONSOLE</code>: if true, show in a console some debug information. Default: false.</li>
+<li><code>REDIS_${INSTANCENAME}_CLUSTER</code>: a redis cluster or host, example and default: <code>[{ port: 6379, host: &#39;127.0.0.1&#39; }]</code>;</li>
+<li><code>REDIS_${INSTANCENAME}_PASSWORD</code>: a password for access redis, example and default: <code>password</code>;</li>
+<li><code>REDIS_CONNECTION_POOLING</code>: timing between multiples connections to check for instance;</li>
+</ul>
+<ol>
+<li>If you do not specify instance name in <code>getConnection</code> or <code>disconnect</code> it will use as default <code>main</code>.</li>
+<li>The environment variables replaces the hard-coded values for <code>nodes</code> and <code>password</code>.</li>
+</ol>
+<p>For debug purposes, we are using <a href="https://www.npmjs.com/package/debug">debug</a> library. You can use:</p>
+<ul>
+<li><code>DEBUG</code>: with a value like <code>redis-connection:*</code> to see all logs.</li>
 </ul>
 
 <a href="#running" id="running" style="color: inherit; text-decoration: none;">
