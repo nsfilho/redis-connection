@@ -18,14 +18,6 @@
  * Author: Nelio Santos <nsfilho@icloud.com>
  * 
  */
-export const REDIS_MAIN_CLUSTER = process.env.REDIS_MAIN_CLUSTER
-    ? JSON.parse(process.env.REDIS_MAIN_CLUSTER)
-    : [{ port: 6379, host: '127.0.0.1' }];
-
-export const REDIS_MAIN_PASSWORD = process.env.REDIS_MAIN_PASSWORD || 'password';
-
-export const REDIS_DEBUG_CONSOLE = process.env.REDIS_DEBUG_CONSOLE === 'true' || false;
-
 export const REDIS_CONNECTION_POOLING = process.env.REDIS_CONNECTION_POOLING
     ? parseInt(process.env.REDIS_CONNECTION_POOLING, 10)
     : 100;

@@ -15,9 +15,16 @@ This services use some environment variables to pre-adjust some things, like:
 
 This services use some environment variables to pre-adjust some things, like:
 
--   `REDIS_MAIN_CLUSTER`: a redis cluster or host, example and default: `[{ port: 6379, host: '127.0.0.1' }]`;
--   `REDIS_MAIN_PASSWORD`: a password for access redis, example and default: `password`;
--   `REDIS_DEBUG_CONSOLE`: if true, show in a console some debug information. Default: false.
+-   `REDIS_${INSTANCENAME}_CLUSTER`: a redis cluster or host, example and default: `[{ port: 6379, host: '127.0.0.1' }]`;
+-   `REDIS_${INSTANCENAME}_PASSWORD`: a password for access redis, example and default: `password`;
+-   `REDIS_CONNECTION_POOLING`: timing between multiples connections to check for instance;
+
+1. If you do not specify instance name in `getConnection` or `disconnect` it will use as default `main`.
+2. The environment variables replaces the hard-coded values for `nodes` and `password`.
+
+For debug purposes, we are using [debug](https://www.npmjs.com/package/debug) library. You can use:
+
+-   `DEBUG`: with a value like `redis-connection:*` to see all logs.
 
 ## Running
 

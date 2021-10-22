@@ -21,12 +21,15 @@
 /* eslint-disable no-console */
 
 import Redis from 'ioredis';
-import {
-    REDIS_MAIN_CLUSTER,
-    REDIS_MAIN_PASSWORD,
-    REDIS_DEBUG_CONSOLE,
-    REDIS_CONNECTION_POOLING,
-} from '../../constants';
+import debug from 'debug';
+import { REDIS_CONNECTION_POOLING } from '../../constants';
+import { getEnvOrDefault } from './utils';
+
+const logger = {
+    debug: debug('redis-connection:debug'),
+    info: debug('redis-connection:info'),
+    error: debug('redis-connection:error'),
+};
 
 /**
  * All parameters needs to create a new redis connection
@@ -62,65 +65,100 @@ export const createRedis = (options: CreateRedisOptions): Promise<Redis.Cluster 
                       family: 4,
                   });
         myInstance.on('connect', () => {
-            if (REDIS_DEBUG_CONSOLE) console.log(`REDIS(${options.instance}): connected.`);
+            logger.info(`(${process.pid}/${options.instance}): connected.`);
             resolve(myInstance);
         });
-        if (REDIS_DEBUG_CONSOLE) {
-            myInstance.on('+node', () => {
-                console.log(`REDIS(${options.instance}): connected to a node.`);
-            });
-            myInstance.on('error', (error) => {
-                console.error(`REDIS(${options.instance}): failed. Error:`, error);
-            });
-        }
+        myInstance.on('+node', () => {
+            logger.debug(`(${process.pid}/${options.instance}): connected to a node.`);
+        });
+        myInstance.on('error', (error) => {
+            logger.error(`(${process.pid}/${options.instance}): failed. Error:`, error);
+        });
     });
 
 /** Control state */
 const internalState: {
-    redis: Redis.Cluster | Redis.Redis | null;
-    started: boolean;
-} = {
-    redis: null,
-    started: false,
+    [index: string]: {
+        started: boolean;
+        instance: Redis.Cluster | Redis.Redis | null;
+    };
+} = {};
+
+interface getConnectionOptions {
+    instance: string;
+    nodes?: string;
+    password?: string;
+}
+
+const getConnectionDefaults: getConnectionOptions = {
+    instance: 'main',
 };
 
 /** Default redis instance */
-export const getConnection = async (): Promise<Redis.Cluster | Redis.Redis> => {
-    if (internalState.redis !== null) return internalState.redis;
-    if (internalState.started) {
-        await new Promise((resolve) => {
+export const getConnection = async (options?: getConnectionOptions): Promise<Redis.Cluster | Redis.Redis> => {
+    const localInstance = options || getConnectionDefaults;
+    const localState = internalState[localInstance.instance];
+    if (localState && localState.instance) return localState.instance;
+    if (localState && localState.started) {
+        return new Promise((resolve) => {
             const handleInterval = setInterval(() => {
-                if (internalState.redis) {
+                if (localState.instance) {
                     clearInterval(handleInterval);
-                    resolve(true);
+                    resolve(localState.instance);
                 }
             }, REDIS_CONNECTION_POOLING);
         });
-        if (internalState.redis) return internalState.redis;
     }
-    internalState.started = true;
-    let debugTimeout: NodeJS.Timeout | null = null;
-    if (REDIS_DEBUG_CONSOLE) {
-        let tryCount = 0;
-        debugTimeout = setInterval(() => {
-            tryCount += 1;
-            console.log(`REDIS(main): Trying connection #${tryCount}`);
-        }, 1000);
-    }
+    if (!localState)
+        internalState[localInstance.instance] = {
+            started: true,
+            instance: null,
+        };
 
-    internalState.redis = await createRedis({
-        instance: 'main',
-        nodes: REDIS_MAIN_CLUSTER,
-        password: REDIS_MAIN_PASSWORD,
+    // Adding debug information to console
+    let tryCount = 0;
+    let debugTimeout: NodeJS.Timeout | null = null;
+    debugTimeout = setInterval(() => {
+        tryCount += 1;
+        logger.debug(`(${process.pid}/${localInstance.instance}): Trying connection #${tryCount}`);
+    }, 1000);
+
+    // [{ port: 6379, host: '127.0.0.1' }]
+    const nodes = JSON.parse(
+        getEnvOrDefault({
+            envName: `REDIS_${localInstance.instance.toUpperCase()}_CLUSTER`,
+            defaultValue: localInstance.nodes || `[{ "port": 6379, "host": "127.0.0.1" }]`,
+        }),
+    );
+    const password = getEnvOrDefault({
+        envName: `REDIS_${localInstance.instance.toUpperCase()}_PASSWORD`,
+        defaultValue: localInstance.password || 'password',
     });
-    if (debugTimeout) clearInterval(debugTimeout);
-    return internalState.redis;
+
+    logger.info(`(${process.pid}/${localInstance.instance}) Starting connection: %o and password: %o`, nodes, password);
+    internalState[localInstance.instance].instance = await createRedis({
+        instance: localInstance.instance,
+        nodes,
+        password,
+    });
+
+    clearInterval(debugTimeout);
+    return internalState[localInstance.instance].instance as Redis.Cluster;
 };
 
+interface disconnectOptions {
+    instance: string;
+}
+
 /** Disconnect from redis */
-export const disconnect = async (): Promise<void> => {
-    if (internalState.redis !== null) {
-        internalState.redis.disconnect();
-        internalState.redis = null;
+export const disconnect = async (options?: disconnectOptions): Promise<void> => {
+    const localInstance = options || getConnectionDefaults;
+    const localState = internalState[localInstance.instance];
+    if (localState && localState.instance) {
+        logger.info(`(${process.pid}/${localInstance.instance}) Disconnecting`);
+        const protectedCopy = localState.instance;
+        localState.started = false;
+        localState.instance = null;
+        protectedCopy.disconnect();
     }
 };
