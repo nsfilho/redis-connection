@@ -67,7 +67,7 @@
             "prettier --write"
         ]
     },
-    "version": "0.1.12",
+    "version": "0.1.13",
     "config": {
         "commitizen": {
             "path": "./node_modules/cz-conventional-changelog"
