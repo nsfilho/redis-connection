@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.11](https://github.com/nsfilho/redis-connection/compare/v0.1.10...v0.1.11) (2024-03-16)
+
+
+### Features
+
+* upgrading actions ([8379174](https://github.com/nsfilho/redis-connection/commit/8379174e37637babe744bf22c6e391af45c3a096))
+* upgrading libs ([8ada608](https://github.com/nsfilho/redis-connection/commit/8ada6089336acc606ed5d290d9db6a4d7a32046e))
+
 ### [0.1.10](https://github.com/nsfilho/redis-connection/compare/v0.1.9...v0.1.10) (2021-10-22)
 
 
