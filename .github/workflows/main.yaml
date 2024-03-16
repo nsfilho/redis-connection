@@ -11,12 +11,14 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
+            - uses: actions/checkout@v4
             - name: Setup node
               uses: actions/setup-node@v4
               with:
                   node-version: '18'
+                  registry-url: 'https://registry.npmjs.org'
+                  scope: '@nsfilho'
+                  always-auth: true
             - name: Install packages
               run: npm install
             - name: Validate with eslint
