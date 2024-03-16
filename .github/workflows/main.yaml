@@ -16,26 +16,12 @@ jobs:
             - name: Setup node
               uses: actions/setup-node@v2-beta
               with:
-                  node-version: '14'
-            - name: Setup Yarn Cache
-              run: yarn config set yarn-offline-mirror ~/.yarn-offline
-            - name: Cache node modules
-              uses: actions/cache@v2
-              env:
-                  cache-name: cache-node-modules
-              with:
-                  # npm cache files are stored in `~/.npm` on Linux/macOS
-                  path: ~/.yarn-offline
-                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-build-${{ env.cache-name }}-
-                      ${{ runner.os }}-build-
-                      ${{ runner.os }}-
+                  node-version: '18'
             - name: Install packages
-              run: yarn install
+              run: npm install
             - name: Validate with eslint
-              run: yarn eslint
+              run: npm run lint
             - name: Build application
-              run: yarn build
+              run: npm run build
             - name: Build docs
-              run: yarn docs
+              run: npm run docs

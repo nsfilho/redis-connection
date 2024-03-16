@@ -11,10 +11,10 @@ use the steps bellow:
 ```sh
 git clone https://github.com/nsfilho/redis.git
 cd redis
-yarn install
+npm install
 
 # Run the most basic way
-yarn ts-node sample/index.ts
+npx ts-node sample/index.ts
 
 # For debug purpose
 node --require ts-node/register --inspect sample/index.ts

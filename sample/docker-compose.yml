@@ -19,86 +19,100 @@
 #
 # Author: Nelio Santos <nsfilho@icloud.com>
 #
-version: "3.6"
+version: '3.6'
 
 services:
-  mongodb:
-    image: mongo:4.4
-    volumes:
-      - mongodb:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: "root"
-      MONGO_INITDB_ROOT_PASSWORD: "password"
-      MONGO_INITDB_DATABASE: "core"
-    ports:
-      - 27017:27017
+    mongodb:
+        image: mongo:7
+        volumes:
+            - mongodb:/data/db
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: 'root'
+            MONGO_INITDB_ROOT_PASSWORD: 'password'
+            MONGO_INITDB_DATABASE: 'core'
+        ports:
+            - 27017:27017
+        networks:
+            - internal
 
-  mongo-express:
-    image: mongo-express:0.54
-    ports:
-      - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: password
-    networks:
-      - internal
+    mongo-express:
+        image: mongo-express:1.0.2
+        ports:
+            - 8081:8081
+        environment:
+            ME_CONFIG_MONGODB_SERVER: mongodb
+            ME_CONFIG_MONGODB_ADMINUSERNAME: root
+            ME_CONFIG_MONGODB_ADMINPASSWORD: password
+            ME_CONFIG_BASICAUTH_USERNAME: root
+            ME_CONFIG_BASICAUTH_PASSWORD: password
+        networks:
+            - internal
 
-  adminer:
-    image: adminer:4.7
-    ports:
-      - 8082:8080
-    links:
-      - postgres:postgres
-    depends_on:
-      - postgres
+    adminer:
+        image: adminer:4.8.1
+        ports:
+            - 8082:8080
+        links:
+            - postgres:postgres
+        depends_on:
+            - postgres
+        networks:
+            - internal
 
-  postgres:
-    image: postgres:12.4
-    volumes:
-      - postgres:/var/lib/postgresql/data
-    environment:
-      POSTGRES_HOST: "postgres"
-      POSTGRES_USER: "postgres"
-      POSTGRES_PORT: 5432
-      POSTGRES_DB: "core"
-      POSTGRES_PASSWORD: "password"
-      PGPASSWORD: "password"
-    ports:
-      - 5432:5432
+    postgres:
+        image: postgres:16.2
+        volumes:
+            - postgres:/var/lib/postgresql/data
+        environment:
+            POSTGRES_HOST: 'postgres'
+            POSTGRES_USER: 'postgres'
+            POSTGRES_PORT: 5432
+            POSTGRES_DB: 'core'
+            POSTGRES_PASSWORD: 'password'
+            PGPASSWORD: 'password'
+        ports:
+            - 5432:5432
+        networks:
+            - internal
 
-  redis:
-    image: redis:6
-    environment:
-      ALLOW_EMPTY_PASSWORD: "no"
-      REDIS_EXTRA_FLAGS: "--maxmemory 250mb"
-    command: >
-      --requirepass password
-    ports:
-      - 6379:6379
+    redis:
+        image: redis:7.2.4
+        environment:
+            ALLOW_EMPTY_PASSWORD: 'no'
+            REDIS_EXTRA_FLAGS: '--maxmemory 250mb'
+        command: >
+            --requirepass password
+        ports:
+            - 6379:6379
+        networks:
+            - internal
 
-  redis-commander:
-    image: rediscommander/redis-commander:latest
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PASSWORD=password
-      - ADDRESS=0.0.0.0
-    ports:
-      - 8083:8081
-    networks:
-      - internal
+    redis-commander:
+        image: rediscommander/redis-commander:latest
+        environment:
+            - REDIS_HOST=redis
+            - REDIS_PASSWORD=password
+            - ADDRESS=0.0.0.0
+        ports:
+            - 8083:8081
+        networks:
+            - internal
 
-  queue:
-    image: rabbitmq:3-management
-    ports:
-      - 5672:5672
-      - 15672:15672
-    environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=password
-    volumes:
-      - rabbitmq:/var/lib/rabbitmq
+    queue:
+        image: rabbitmq:3-management
+        ports:
+            - 5672:5672
+            - 8084:15672
+        environment:
+            - RABBITMQ_DEFAULT_USER=admin
+            - RABBITMQ_DEFAULT_PASS=password
+        volumes:
+            - rabbitmq:/var/lib/rabbitmq
 
 volumes:
-  rabbitmq:
-  postgres:
-  mongodb:
+    rabbitmq:
+    postgres:
+    mongodb:
+
+networks:
+    internal:

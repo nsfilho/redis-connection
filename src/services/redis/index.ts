@@ -20,7 +20,7 @@
  */
 /* eslint-disable no-console */
 
-import Redis from 'ioredis';
+import Redis, { Cluster } from 'ioredis';
 import debug from 'debug';
 import { REDIS_CONNECTION_POOLING } from '../../constants';
 import { getEnvOrDefault } from './utils';
@@ -38,7 +38,7 @@ interface CreateRedisOptions {
     /** Label for all console messages */
     instance: string;
     /** Minimum connection configuration about nodes */
-    nodes: Redis.NodeConfiguration[];
+    nodes: { port: number; host: string }[];
     /** Redis Password */
     password: string;
 }
@@ -47,11 +47,11 @@ interface CreateRedisOptions {
  * Create a new redis object
  * @param options options for create a new redis instance object
  */
-export const createRedis = (options: CreateRedisOptions): Promise<Redis.Cluster | Redis.Redis> =>
+export const createRedis = (options: CreateRedisOptions): Promise<Cluster | Redis> =>
     new Promise((resolve) => {
         const myInstance =
             options.nodes.length > 1
-                ? new Redis.Cluster(options.nodes, {
+                ? new Cluster(options.nodes, {
                       redisOptions: {
                           password: options.password,
                           family: 4,
@@ -80,7 +80,7 @@ export const createRedis = (options: CreateRedisOptions): Promise<Redis.Cluster 
 const internalState: {
     [index: string]: {
         started: boolean;
-        instance: Redis.Cluster | Redis.Redis | null;
+        instance: Cluster | Redis | null;
     };
 } = {};
 
@@ -95,7 +95,7 @@ const getConnectionDefaults: getConnectionOptions = {
 };
 
 /** Default redis instance */
-export const getConnection = async (options?: getConnectionOptions): Promise<Redis.Cluster | Redis.Redis> => {
+export const getConnection = async (options?: getConnectionOptions): Promise<Cluster | Redis> => {
     const localInstance = options || getConnectionDefaults;
     const localState = internalState[localInstance.instance];
     if (localState && localState.instance) return localState.instance;
@@ -143,7 +143,7 @@ export const getConnection = async (options?: getConnectionOptions): Promise<Red
     });
 
     clearInterval(debugTimeout);
-    return internalState[localInstance.instance].instance as Redis.Cluster;
+    return internalState[localInstance.instance].instance as Cluster;
 };
 
 interface disconnectOptions {
