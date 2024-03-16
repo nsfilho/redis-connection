@@ -17,6 +17,7 @@ jobs:
                   node-version: '18'
                   registry-url: 'https://registry.npmjs.org'
                   scope: '@nsfilho'
+                  always-auth: true
             - name: Install packages
               run: npm install
             - name: Validate with eslint
